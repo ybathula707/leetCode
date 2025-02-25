@@ -1,28 +1,30 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        if len(s) != len(t):
+        if len(s) != len(t): 
             return False
+        
+        s_lower = s.lower()
+        t_lower = t.lower()
 
-        #Space O(n)
-        hashS, hashT = {}, {}
+        charHash = [0] * 26
 
-        # Time O(n + m)
-        for char in range(len(s)):
-            hashS[s[char]] = 1 + hashS.get(s[char], 0)
-            hashT[t[char]] = 1 + hashT.get(t[char], 0)
-
-        # Time O(n)
-        for c in hashS:
-            if hashS[c] != hashT.get(c, 0):
+        for i in range(len(s_lower)):
+            charHash[ord(s_lower[i]) - ord('a')] += 1
+        for i in range(len(t_lower)):
+            charHash[ord(t_lower[i]) - ord('a')] -= 1
+        
+        for charKey in charHash:
+            if charKey != 0:
                 return False
-
+        
         return True
 
-        """
-                Idea:
-                    1. Sort both and compare equality
-                    2. Put both into a seperate dictionary and compare
-                    equality of those dictionary
-                    3. occurence counter using One hashmap of size 26 letters
-                        - return Flase if ever key: value maps to <0
-            """
+        '''
+        In this version, converted string to lowercase and then used a simgle
+        array, initialzed to all 0's to track occurences of each char in either str.
+        If we run into it in s1, +=1
+        If we run into it in s2 -=1
+        At the end, if the char Hash array has any value != 0, something didn't
+        match between strings. (Since if they had equal occurences of each char,
+        after all inc and decr, val should be 0)
+        '''
