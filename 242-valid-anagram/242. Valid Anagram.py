@@ -1,20 +1,28 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        if len(s) != len(t): 
+        if len(s) != len(t):
             return False
-        
-        s_lower = s.lower()
-        t_lower = t.lower()
 
-        charHash = [0] * 26
+        #Space O(n)
+        hashS, hashT = {}, {}
 
-        for i in range(len(s_lower)):
-            charHash[ord(s_lower[i]) - ord('a')] += 1
-        for i in range(len(t_lower)):
-            charHash[ord(t_lower[i]) - ord('a')] -= 1
-        
-        for charKey in charHash:
-            if charKey != 0:
+        # Time O(n + m)
+        for char in range(len(s)):
+            hashS[s[char]] = 1 + hashS.get(s[char], 0)
+            hashT[t[char]] = 1 + hashT.get(t[char], 0)
+
+        # Time O(n)
+        for c in hashS:
+            if hashS[c] != hashT.get(c, 0):
                 return False
-        
+
         return True
+
+        """
+                Idea:
+                    1. Sort both and compare equality
+                    2. Put both into a seperate dictionary and compare
+                    equality of those dictionary
+                    3. occurence counter using One hashmap of size 26 letters
+                        - return Flase if ever key: value maps to <0
+            """
