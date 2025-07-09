@@ -1,65 +1,34 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        resultArray = []
         nums.sort()
+        retArray = []
 
         for i in range(len(nums) - 2):
+            # keep incrementing first tuple item intil not duplicate
             if i > 0 and nums[i - 1] == nums[i]:
                 continue
+            left = i + 1
+            right = len(nums) - 1
+            while left < right:
+                currentSum = nums[i] + nums[left] + nums[right]
+                # updating pointers based on current sum w.r to 0
 
-            greater = len(nums) - 1
-            less = i + 1
-
-            while less < greater:
-
-                sumZero = nums[i] + nums[less] + nums[greater]
-                if sumZero > 0:
-                    # decrement larger ptr, until its not a duplicate
-                    greater -= 1
-                elif sumZero < 0:
-                    # increment smaller ptr, until its not a duplicate
-                    less += 1
+                if currentSum > 0:  # decrement the larger pointer
+                    right -= 1
+                elif currentSum < 0:   # increment the smaller pointer
+                    left += 1
                 else:
-                    # found a triple summing to 0! Add to resArray
-                    resultArray.append([nums[i], nums[less], nums[greater]])
+                    # append the items into array since they equal 0
+                    retArray.append([nums[i], nums[left], nums[right]])
+                    # incrment left and right while pointers dont overlap 
+                    # and while next left or right is dup to current pointer
+                    while left < right and nums[left + 1] == nums[left]:
+                        left += 1
+                    while left < right and nums[right - 1] == nums[right]:
+                        right -= 1
+                    # increment left and right arbitrarily, or one final time after 
+                    # avoiding dup logic
+                    left += 1
+                    right -= 1
 
-                    while less < greater and nums[greater] == nums[greater - 1]:
-                        greater -= 1
-                    while less < greater and nums[less + 1] == nums[less]:
-                        less += 1
-
-                    greater -= 1
-                    less += 1
-
-        return resultArray
-
-        """
-            Given: nonsotred int array, return list of all
-            triplets (no dublicate elements) which sum to
-            0, were indeces are unique
-
-            Idea:
-            O(N) time using 2 ptr approach (really 3 ptrs)
-            1) Sort the array
-            i = array idx ptr
-                     i -
-            [-1, -1, 0,1, 2, 3]
-                             =
-
-            for i to end of nums:
-                while i is not 0, and i is not dup:
-                    i ++ 
-
-                r = i +1
-                l = len(nums)
-                while ptr do not overlap:
-                    check zero sum
-                    sum is < 0:
-                        increment larger ptr
-                    else bigger 
-                        increment smaller ptr
-                    else:
-                        append triple to array 
-                   -> in while() Increment pointers to the last occurence of dup
-                   -> Increment all pointers to next unique value
-        """
+        return retArray
