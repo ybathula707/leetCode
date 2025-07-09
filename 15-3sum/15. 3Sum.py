@@ -15,24 +15,19 @@ class Solution:
                 sumZero = nums[i] + nums[less] + nums[greater]
                 if sumZero > 0:
                     # decrement larger ptr, until its not a duplicate
-                    while less < greater and nums[greater] == nums[greater - 1]:
-                        greater -= 1
                     greater -= 1
                 elif sumZero < 0:
                     # increment smaller ptr, until its not a duplicate
-                    while less < greater and nums[less + 1] == nums[less]:
-                        less += 1
                     less += 1
                 else:
                     # found a triple summing to 0! Add to resArray
                     resultArray.append([nums[i], nums[less], nums[greater]])
 
-                    # increment r & l until last occurence of dup
                     while less < greater and nums[greater] == nums[greater - 1]:
                         greater -= 1
                     while less < greater and nums[less + 1] == nums[less]:
                         less += 1
-                    # move to next unique elemenyt
+
                     greater -= 1
                     less += 1
 
