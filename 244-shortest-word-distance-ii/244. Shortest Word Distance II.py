@@ -1,14 +1,13 @@
 class WordDistance:
 
     def __init__(self, wordsDict: List[str]):
-        self.wordsDict = wordsDict
         self.wordsIndeces = {}
 
         #populate the index arrays per word in hash table
-        for i in range(len(self.wordsDict)):
-            if self.wordsDict[i] not in self.wordsIndeces:
+        for i in range(len(wordsDict)):
+            if wordsDict[i] not in self.wordsIndeces:
                 self.wordsIndeces[wordsDict[i]] = []
-            self.wordsIndeces[self.wordsDict[i]].append(i)
+            self.wordsIndeces[wordsDict[i]].append(i)
 
     def shortest(self, word1: str, word2: str) -> int:
         #edge cases for input validation -> ret None
