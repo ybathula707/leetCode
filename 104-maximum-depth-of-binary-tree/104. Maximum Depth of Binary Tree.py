@@ -7,7 +7,7 @@
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         if root is None:
-            return -1
+            return 0
         # null node
         elif root.left is None and root.right is None:
             return 1
