@@ -1,25 +1,15 @@
 class Solution:
-    def maxArea(self, height: List[int]) -> int:
-        right_ptr, left_ptr = len(height) - 1, 0
+    def maxArea(self, heights: List[int]) -> int:
+                # var to keep track of largest volume found so far
         max_vol = 0
-
-        if height is None or len(height) == 1:
-            return max_vol
-
-        while left_ptr < right_ptr:
-
-            # calculate current volume
-            curr_height = min(height[right_ptr], height[left_ptr])
-            width = right_ptr - left_ptr
-            curr_volume = curr_height * width
-
-            # update maximum volume if we found a new max
-            max_vol = max(curr_volume, max_vol)
-
-            # increment smaller pointer
-            if height[right_ptr] < height[left_ptr]:
-                right_ptr -= 1
+        # two ptrs Right Hand Side (RHS) and Left Hand Side (LHS)
+        LHS,RHS = 0, len(heights) - 1
+        while(LHS < RHS):
+            max_vol = max(max_vol, (min(heights[LHS], heights[RHS])* (RHS - LHS)))
+            if (heights[RHS] < heights[LHS]):
+                RHS -=1
             else:
-                left_ptr += 1
+                LHS +=1          
+  
 
         return max_vol
