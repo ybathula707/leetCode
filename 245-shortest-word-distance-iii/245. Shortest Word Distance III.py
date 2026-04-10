@@ -1,36 +1,41 @@
 class Solution:
     def shortestWordDistance(self, wordsDict: List[str], word1: str, word2: str) -> int:
+        wordsIndex = {}
+
         if not word1 or not word2:
             return None
-        wordsIndex = {}
-        # populate the words hash dict were key= word hash, val= idx array
+
+        #O(n) to populate but O(1) lookups
         for i, word in enumerate(wordsDict):
             if word not in wordsIndex:
                 wordsIndex[word] = []
             wordsIndex[word].append(i)
-        
-        wArray1, wArray2 = wordsIndex[word1], wordsIndex[word2]
-        wPtr1, wPtr2 = 0, 0
-        minDist = float("inf")
 
-        # if same, jsut check for min difference between all contingious elements
-        # since indexes are  inorder 
+        if word1 not in wordsIndex or word2 not in wordsIndex:
+            return None
+
+        #if same word, we look for min in the same array
         if word1 == word2:
-            # first comparison b.w i=1 and i =0
-            for i in range(1, len(wArray1)):
-                minDist = min(minDist, abs(wArray1[i - 1] - wArray2[i]))
-            return minDist
+            indeces = wordsIndex[word1]
+            min_diff = float("inf")
+            for i in range(1, len(indeces)):
+                min_diff = min(min_diff, abs(indeces[i-1] - indeces[i]))
+            return min_diff
+    
+        # load the word index arrays
+        word1IndexArray = wordsIndex[word1]
+        word2IndexArray = wordsIndex[word2]
 
-        # normal case, two ptr approach. 
-        # move pointer at smaller index value
+        # init ptrs and min aggregator
+        word1Ptr, word2Ptr, minDist = 0, 0, float("inf")
+     
+        while word1Ptr < len(word1IndexArray) and word2Ptr < len(word2IndexArray):
+            minDist = min(minDist, abs(word1IndexArray[word1Ptr] - word2IndexArray[word2Ptr]))
 
-        while wPtr1 < len(wArray1) and wPtr2 < len(wArray2):
-           minDist = min(minDist, abs(wArray1[wPtr1] - wArray2[wPtr2]))
-           
-           if wArray1[wPtr1] < wArray2[wPtr2]:
-                wPtr1 += 1
-           else:
-                wPtr2 += 1
+            # move the pointer that's the smaller index val
+            if word1IndexArray[word1Ptr] < word2IndexArray[word2Ptr]:
+                word1Ptr += 1
+            else:
+                word2Ptr += 1
 
         return minDist
-
