@@ -3,9 +3,6 @@ class Solution:
         right_ptr, left_ptr = len(height) - 1, 0
         max_vol = 0
 
-        if height is None or len(height) == 1:
-            return max_vol
-
         while left_ptr < right_ptr:
 
             # calculate current volume
