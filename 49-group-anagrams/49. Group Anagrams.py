@@ -22,7 +22,6 @@ class Solution:
                 This way, we can jsut print the values of the hashmap for
                 a grouped list of anagram strings
 
-            * Note we cannot use list as a key, so convert the character 
-            count hash per string
+            * Note we cannot use list as a key, so convert the character count hash per string
             into a tuple before inseritign
         """
